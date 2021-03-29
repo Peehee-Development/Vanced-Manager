@@ -16,6 +16,7 @@ REM Buggy mode con animation
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
 REM Add YouTube Music
 REM Download / Install UI
+REM Fix for loop goto nextline crap
 
 
 :beginning
