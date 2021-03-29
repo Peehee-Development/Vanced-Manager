@@ -92,7 +92,7 @@ exit /b
 
 :isAdbInstalled
 
-set adb=Files\adb\adb.exe
+set adb=Files\adb\adb.exe -d
 for /f "tokens=*" %%a in ('adb version 2^>nul ^|find "Android"') do (
 	set adb=adb
 	!adb! start-server 2>nul
