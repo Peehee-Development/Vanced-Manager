@@ -401,6 +401,7 @@ IF %ERRORLEVEL% EQU 1 goto beginning
 
 
 :programAlreadyRunning
+
 set "programAlreadyRunning2=_____________________________________"
 set "programAlreadyRunning3=                                     "
 set "programAlreadyRunning4= Error^^^!^^^! Program is already running. "
