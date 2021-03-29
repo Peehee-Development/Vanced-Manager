@@ -1,6 +1,7 @@
 @echo off
-pushd "%~dp0"
 setlocal enabledelayedexpansion
+tasklist /fi "IMAGENAME eq cmd.exe" /fi "WINDOWTITLE eq Vanced Manager for Windows" |find "No tasks" >nul || goto programAlreadyRunning
+pushd "%~dp0"
 title Vanced Manager for Windows
 set tryConnect=1
 set mSpinner=.
@@ -8,8 +9,6 @@ mode con cols=85 lines=22
 
 
 REM _________To do list__________
-REM Dont run Script2 if already running
-REM If emulater is running
 REM isRoot
 REM Kill ADB when done
 REM Buggy mode con animation
@@ -398,6 +397,18 @@ echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
 CHOICE /C RQ /N
 IF %ERRORLEVEL% EQU 2 goto EXIT
 IF %ERRORLEVEL% EQU 1 goto beginning
+
+
+
+:programAlreadyRunning
+set "programAlreadyRunning2=_____________________________________"
+set "programAlreadyRunning3=                                     "
+set "programAlreadyRunning4= Error^^^!^^^! Program is already running. "
+set "programAlreadyRunning5=_____________________________________"
+call :UI "31", "!programAlreadyRunning2!", "!programAlreadyRunning3!", "!programAlreadyRunning4!", "!programAlreadyRunning5!"
+echo       Press any key to exit
+pause >nul
+goto EXIT
 
 
 
