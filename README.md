@@ -1,6 +1,5 @@
 # Vanced-Manager
 
-First commit from Admin Yoel
 
 This is a batch file that when run on your computer will do the following.
 1) install ADB (Will be deleted after program finishes).
@@ -25,3 +24,13 @@ What you will need:
 3) Enable USB Debugging
 4) Enable Install Via USB (If Xiaomi)
 5) If a pop-up comes up to download Vanced and MIcroG, Allow Download.
+
+
+
+
+
+
+© PeeHee-Development 
+Contributors:
+1) hutk1999
+2) asherperlmuter
