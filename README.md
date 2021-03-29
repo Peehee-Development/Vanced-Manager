@@ -11,4 +11,17 @@ This is a batch file that when run on your computer will do the following.
 
 
 How to use:
-1) you will need to download 7zip
+1) You will need to download 7Zip.
+2) Next, unZip the 7Zip file.
+3) You will recieve a bat file.
+4) Just press the bat file twice to run it.
+5) In the window follow the instructions.
+6) Enjoy Vanced :)
+
+
+What you will need:
+1) 7Zip
+2) A cable connecting the phone to the computer
+3) Enable USB Debugging
+4) Enable Install Via USB (If Xiaomi)
+5) If a pop-up comes up to download Vanced and MIcroG, Allow Download.
