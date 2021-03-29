@@ -187,9 +187,6 @@ for /f tokens^=3^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """music""" Files\latest.json') do set musicline=%%a
 for /f tokens^=3^ skip^=%musicline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMusicVersion=%%a& goto :nextline3
 :nextline3
-
-echo %latestMusicVersion%
-pause
 exit /b
 
 
@@ -275,7 +272,7 @@ CHOICE /C 12rq /N
 rem CHOICE /C 12rq /N /M "     Enter your Choice [1,2,R,Q] :"
 IF %ERRORLEVEL% EQU 4 goto EXIT
 IF %ERRORLEVEL% EQU 3 goto beginning
-IF %ERRORLEVEL% EQU 2 call :updateMusic
+IF %ERRORLEVEL% EQU 2 call :updateMicroG
 IF %ERRORLEVEL% EQU 1 call :updateVanced
 goto Manager
 EXIT /b
