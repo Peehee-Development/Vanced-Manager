@@ -2,18 +2,10 @@
 pushd "%~dp0"
 setlocal enabledelayedexpansion
 title Vanced Manager for Windows
-mode con cols=85 lines=22
 set tryConnect=1
 set mSpinner=.
+mode con cols=85 lines=22
 
-:beginning
-cls
-rem echo     [1mVanced Manager[0m    
-call :createFolders
-call :isAdbInstalled
-call :checkADB
-call :deviceConnected
-call :Manager
 
 REM _________To do list__________
 REM Dont run Script2 if already running
@@ -25,7 +17,20 @@ REM Before "installed" for microG and Vanced, call the isInstalled function. If 
 REM Add YouTube Music
 REM Download / Install UI
 
+
+:beginning
+
+cls
+call :createFolders
+call :isAdbInstalled
+call :checkADB
+call :deviceConnected
+call :Manager
+
+
+
 :UI
+
 echo.
 echo     [1mVanced Manager[0m
 echo   ===========================================================
@@ -38,7 +43,7 @@ echo     %~2
 echo    ^|%~3^|
 echo    ^|%~4^|
 echo    ^|%~5^|
-echo.[0m
+echo. [0m
 echo.
 echo.
 echo.
@@ -48,12 +53,13 @@ echo.
 exit /b
 
 
+
 :checkInternet
+
 set mSpinner=%mSpinner%.
 if %mSpinner%'==....' (set mSpinner=.)
 ping -n 1 www.google.com > nul 2>&1 && (set tryConnect=1 & cls & exit /b)
 cls
-
 
 set "checkInternet2=____________________________"
 set "checkInternet3=                            "
@@ -74,13 +80,17 @@ IF %ERRORLEVEL% EQU 2 goto exit
 IF %ERRORLEVEL% EQU 1 set tryConnect=1 & goto checkInternet
 
 
+
 :createFolders
+
 if not exist Files\microg md Files\microg
 if not exist Files\vanced md Files\vanced
 exit /b
 
 
+
 :isAdbInstalled
+
 set adb=Files\adb\adb.exe
 for /f "tokens=*" %%a in ('adb version 2^>nul ^|find "Android"') do (
 	set adb=adb
@@ -93,8 +103,6 @@ if not exist Files\adb\AdbWinApi.dll set filesMissing=1
 if not exist Files\adb\AdbWinUsbApi.dll set filesMissing=1
 if %filesMissing%==1 (
 
-
-	
 	set "isAdbInstalled2=___________________________________________________________________________"
 	set "isAdbInstalled3=                                                                           "
 	set "isAdbInstalled4= In order for this program to work properly, it will need to download ADB. "
@@ -142,7 +150,9 @@ if %filesMissing%==1 (
 exit /b
 
 
+
 :checkADB
+
 for /f "tokens=1-5" %%a in ('%adb% devices') do set "isAdbConnected=%%b"
 if %isAdbConnected% ==device ( exit /b )
 if %isAdbConnected% ==of ( goto noDevice )
@@ -152,28 +162,22 @@ pause >nul
 goto EXIT
 
 
+
 :deviceConnected
-echo   ===========================================================
-echo    ---------------------------------------------------------
-echo.
-echo.
-echo.
-echo.[34m
-echo     _____________________________________
-echo    ^|                                     ^|
-echo    ^| Device connected sucsessfully^^!^^!     ^|
-echo    ^|_____________________________________^|
-echo.[0m
-echo.
-echo.
-echo.
-echo    ---------------------------------------------------------
-echo   ===========================================================
+
+set "deviceConnected2=_________________________________"
+set "deviceConnected3=                                 "
+set "deviceConnected4= Device connected sucsessfully^^^!^^^! "
+set "deviceConnected5=_________________________________"
+call :UI "34", "!deviceConnected2!", "!deviceConnected3!", "!deviceConnected4!", "!deviceConnected5!"
 exit /b
 
+
+
 :getLatestVersions
+
 call :checkInternet
-powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://mirror.codebucket.de/vanced/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
+powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://vancedapp.com/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """vanced""" Files\latest.json') do set vancedline=%%a
 for /f tokens^=3^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do set latestVancedVersion=%%a& goto :nextline
 :nextline
@@ -183,7 +187,9 @@ for /f tokens^=3^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do
 exit /b
 
 
+
 :isVancedInstalled
+
 set isVancedInstalledparameter=0
 set VancedUpdateInstall=  Install
 set currentVancedVersion=None
@@ -191,15 +197,16 @@ for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.vanced.andro
 	set isVancedInstalledparameter=1
 	set VancedUpdateInstall=   Update
 	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.vanced.android.youtube ^|findstr "versionName"') DO (
-	set currentVancedVersion=%%b && if %%b==%latestVancedVersion% set VancedUpdateInstall=Reinstall
-	
+		set currentVancedVersion=%%b && if %%b==%latestVancedVersion% set VancedUpdateInstall=Reinstall
 	)
 	
 )
 exit /b
 
 
+
 :isMicroGInstalled
+
 set isMicroGInstalledparameter=0
 set MicroGUpdateInstall=  Install
 set currentMicroGVersion=None         
@@ -208,17 +215,19 @@ for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.mgoogle.andr
 	set isMicroGInstalledparameter=1
 	set MicroGUpdateInstall=   Update
 	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.mgoogle.android.gms ^|findstr "versionName"') DO (
-	set currentMicroGVersion=%%b && if %%b==%latestMicroGVersion% set MicroGUpdateInstall=Reinstall
+		set currentMicroGVersion=%%b && if %%b==%latestMicroGVersion% set MicroGUpdateInstall=Reinstall
 	)
 	
 )
 exit /b
 
 
+
 :Manager
-call :getLatestVersions
+
 call :isVancedInstalled
 call :isMicroGInstalled
+call :getLatestVersions
 cls
 echo.
 echo     [1mVanced Manager[0m
@@ -249,48 +258,23 @@ goto Manager
 EXIT /b
 
 
+
 :updateVanced
+
 call :checkInternet	
 call :checkADB
 call :root isRoot
 call :theme theme
 call :arch arch
 call :language lang
+
 cls
-
-
-:root
-set %~1=nonroot
-for /f "tokens=*" %%a IN ('%adb% shell su 2^>nul ^|find "#"') DO (
-	CHOICE /C 12 /N /M "Select [1] for nonroot [2] for root"
-	IF %ERRORLEVEL% EQU 2 set %~1=nonroot
-)
-exit /b
-
-
-:theme
-CHOICE /C 12 /N /M "Select [1] for Dark [2] for Black"
-IF %ERRORLEVEL% EQU 2 set %~1=black
-IF %ERRORLEVEL% EQU 1 set %~1=dark
-exit /b
-
-
-:arch
-for /f "tokens=*" %%a IN ('%adb% shell getprop ro.product.cpu.abi') DO (set arch=%%a)
-set %~1=%arch:-=_%
-exit /b
-
-:language
-set %~1=en
-exit /b
-
-
 echo Downloading latest Vanced... [0%%]
 echo.	
 rem set latestVancedVersion=15.43.32
-set archURL=https://mirror.codebucket.de/vanced/api/v1/apks/v%latestVancedVersion%/%isRoot%/Arch/split_config.%arch%.apk
-set langURL=https://mirror.codebucket.de/vanced/api/v1/apks/v%latestVancedVersion%/%isRoot%/Language/split_config.%lang%.apk
-set themeURL=https://mirror.codebucket.de/vanced/api/v1/apks/v%latestVancedVersion%/%isRoot%/Theme/%theme%.apk
+set archURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Arch/split_config.%arch%.apk
+set langURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Language/split_config.%lang%.apk
+set themeURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Theme/%theme%.apk
 
 set archDestination=Files\vanced\config.%arch%.apk
 set langDestination=Files\vanced\split_config.%lang%.apk
@@ -320,11 +304,42 @@ echo Installed
 ping 127.0.0.1 -n 2 >nul
 exit /b
 
-REM ===========================================================================================================================================
-REM ===========================================================================================================================================
+:root
+
+set %~1=nonroot
+for /f "tokens=*" %%a IN ('%adb% shell su 2^>nul ^|find "#"') DO (
+	CHOICE /C 12 /N /M "Select [1] for nonroot [2] for root"
+	IF %ERRORLEVEL% EQU 2 set %~1=nonroot
+)
+exit /b
+
+
+:theme
+
+CHOICE /C 12 /N /M "Select [1] for Dark [2] for Black"
+IF %ERRORLEVEL% EQU 2 set %~1=black
+IF %ERRORLEVEL% EQU 1 set %~1=dark
+exit /b
+
+
+
+:arch
+
+for /f "tokens=*" %%a IN ('%adb% shell getprop ro.product.cpu.abi') DO (set arch=%%a)
+set %~1=%arch:-=_%
+exit /b
+
+
+
+:language
+
+set %~1=en
+exit /b
+
 
 
 :updateMicroG
+
 call :checkInternet
 call :checkADB
 cls
@@ -354,57 +369,39 @@ echo Installed
 ping 127.0.0.1 -n 2 >nul
 exit /b
 
+
+
 :noDevice
 
-echo   ===========================================================
-echo    ---------------------------------------------------------
-echo.
-echo.
-echo.
-echo.[31m
-echo     _____________________________________________________________________
-echo    ^|                                                                     ^|
-echo    ^| Please make sure device is plugged in and USB Debugging is enabled. ^|
-echo    ^|_____________________________________________________________________^|
-echo.[0m
-echo.
-echo.
-echo.
-echo    ---------------------------------------------------------
-echo   ===========================================================
-echo.
+set "noDevice2=_____________________________________________________________________"
+set "noDevice3=                                                                     "
+set "noDevice4= Please make sure device is plugged in and USB Debugging is enabled. "
+set "noDevice5=_____________________________________________________________________"
+call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice5!"
 echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
 
 CHOICE /C RQ /N
 IF %ERRORLEVEL% EQU 2 goto EXIT
 IF %ERRORLEVEL% EQU 1 goto beginning
+
 
 
 :unauthorized
-echo   ===========================================================
-echo    ---------------------------------------------------------
-echo.
-echo.
-echo.
-echo.[35m
-echo     __________________________________
-echo    ^|                                 ^|
-echo    ^| Please authorize USB Debugging. ^|
-echo    ^|_________________________________^|
-echo.[0m
-echo.
-echo.
-echo.
-echo    ---------------------------------------------------------
-echo   ===========================================================
-echo.
+
+set "deviceunauthorized2=_________________________________"
+set "deviceunauthorized3=                                 "
+set "deviceunauthorized4= Please authorize USB Debugging. "
+set "deviceunauthorized5=_________________________________"
+call :UI "35", "!deviceunauthorized2!", "!deviceunauthorized3!", "!deviceunauthorized4!", "!deviceunauthorized5!"
 echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
 CHOICE /C RQ /N
 IF %ERRORLEVEL% EQU 2 goto EXIT
 IF %ERRORLEVEL% EQU 1 goto beginning
 
 
+
 :EXIT
+
 cls
 echo.
 echo.
