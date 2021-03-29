@@ -1,6 +1,7 @@
 @echo off
-pushd "%~dp0"
 setlocal enabledelayedexpansion
+tasklist /fi "IMAGENAME eq cmd.exe" /fi "WINDOWTITLE eq Vanced Manager for Windows" |find "No tasks" >nul || goto programAlreadyRunning
+pushd "%~dp0"
 title Vanced Manager for Windows
 set tryConnect=1
 set mSpinner=.
@@ -8,14 +9,13 @@ mode con cols=85 lines=22
 
 
 REM _________To do list__________
-REM Dont run Script2 if already running
-REM If emulater is running
 REM isRoot
 REM Kill ADB when done
 REM Buggy mode con animation
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
 REM Add YouTube Music
 REM Download / Install UI
+REM Fix for loop goto nextline crap
 
 
 :beginning
@@ -92,7 +92,7 @@ exit /b
 
 :isAdbInstalled
 
-set adb=Files\adb\adb.exe
+set adb=Files\adb\adb.exe -d
 for /f "tokens=*" %%a in ('adb version 2^>nul ^|find "Android"') do (
 	set adb=adb
 	!adb! start-server 2>nul
@@ -461,6 +461,18 @@ IF %ERRORLEVEL% EQU 1 goto beginning
 
 
 
+:programAlreadyRunning
+set "programAlreadyRunning2=_____________________________________"
+set "programAlreadyRunning3=                                     "
+set "programAlreadyRunning4= Error^^^!^^^! Program is already running. "
+set "programAlreadyRunning5=_____________________________________"
+call :UI "31", "!programAlreadyRunning2!", "!programAlreadyRunning3!", "!programAlreadyRunning4!", "!programAlreadyRunning5!"
+echo       Press any key to exit
+pause >nul
+goto EXIT
+
+
+
 :EXIT
 
 cls
@@ -473,5 +485,6 @@ echo.
 echo    ====================================
 echo.
 echo Press any key to exit. . .
+!adb! kill-server 2<nul
 pause >nul
 exit
