@@ -424,5 +424,6 @@ echo.
 echo    ====================================
 echo.
 echo Press any key to exit. . .
+!adb! kill-server 2<nul
 pause >nul
 exit
