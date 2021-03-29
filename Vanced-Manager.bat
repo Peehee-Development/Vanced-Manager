@@ -250,6 +250,7 @@ exit /b
 
 call :isVancedInstalled
 call :isMicroGInstalled
+call :isMusicInstalled
 call :getLatestVersions
 cls
 echo.
@@ -275,7 +276,7 @@ CHOICE /C 12rq /N
 rem CHOICE /C 12rq /N /M "     Enter your Choice [1,2,R,Q] :"
 IF %ERRORLEVEL% EQU 4 goto EXIT
 IF %ERRORLEVEL% EQU 3 goto beginning
-IF %ERRORLEVEL% EQU 2 call :updateMicroG
+IF %ERRORLEVEL% EQU 2 call :updateMusic
 IF %ERRORLEVEL% EQU 1 call :updateVanced
 goto Manager
 EXIT /b
@@ -398,6 +399,7 @@ exit /b
 
 call :checkInternet
 call :checkADB
+call :root isRoot
 cls
 echo Downloading latest Music... [0%%]
 echo.
