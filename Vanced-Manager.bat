@@ -85,6 +85,7 @@ IF %ERRORLEVEL% EQU 1 set tryConnect=1 & goto checkInternet
 
 if not exist Files\microg md Files\microg
 if not exist Files\vanced md Files\vanced
+if not exist Files\music md Files\music
 exit /b
 
 
@@ -184,6 +185,12 @@ for /f tokens^=3^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """microg""" Files\latest.json') do set microgline=%%a
 for /f tokens^=3^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMicroGVersion=%%a& goto :nextline2
 :nextline2
+for /f "tokens=1 delims=[] " %%a in ('FIND /n """music""" Files\latest.json') do set musicline=%%a
+for /f tokens^=3^ skip^=%musicline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMusicVersion=%%a& goto :nextline3
+:nextline3
+
+echo %latestMusicVersion%
+pause
 exit /b
 
 
@@ -221,6 +228,22 @@ for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.mgoogle.andr
 )
 exit /b
 
+
+:isMusicInstalled
+
+set isMusicInstalledparameter=0
+set MusicUpdateInstall=  Install
+set currentMusicVersion=None         
+
+for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.vanced.android.apps.youtube.music"') DO (
+	set isMusicInstalledparameter=1
+	set musicUpdateInstall=   Update
+	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.vanced.android.apps.youtube.music ^|findstr "versionName"') DO (
+		set currentMusicVersion=%%b && if %%b==%latestMusicVersion% set MusicUpdateInstall=Reinstall
+	)
+	
+)
+exit /b
 
 
 :Manager
@@ -368,6 +391,44 @@ cls
 echo Installed
 ping 127.0.0.1 -n 2 >nul
 exit /b
+
+
+
+:updateMusic
+
+call :checkInternet
+call :checkADB
+cls
+echo Downloading latest Music... [0%%]
+echo.
+powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
+powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk" -Destination "Files\music\music.apk" -Asynchronous -DisplayName downloadMusic *>$null;}" 
+set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
+:musicLoop
+FOR /F "tokens=*" %%a IN ('%musicProgressBar%') DO (
+cls 
+echo Downloading latest Music... [%%a%%]
+if %%a == 100 cls & goto endMusicLoop
+)
+
+goto musicLoop
+:endMusicLoop
+echo Downloading latest Music... [100%%]
+powershell -Command "& { Get-BitsTransfer -Name "downloadMusic"| Complete-BitsTransfer }	
+echo Download Complete
+echo.
+cls
+echo Installing...
+%adb% install Files\music\music.apk 1>nul
+cls
+echo Installed
+ping 127.0.0.1 -n 2 >nul
+exit /b
+
+
+
+
+
 
 
 
