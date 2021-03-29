@@ -10,7 +10,6 @@ mode con cols=85 lines=22
 
 REM _________To do list__________
 REM isRoot
-REM Kill ADB when done
 REM Buggy mode con animation
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
 REM Add YouTube Music
