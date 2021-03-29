@@ -400,11 +400,18 @@ exit /b
 call :checkInternet
 call :checkADB
 call :root isRoot
+call :arch arch
+
+set archURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/stock/%arch%.apk
+set rootURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk
+
+set archDestination=Files\music\%arch%.apk
+set rootDestination=Files\music\%isRoot%.apk
 cls
 echo Downloading latest Music... [0%%]
 echo.
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
-powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk" -Destination "Files\music\music.apk" -Asynchronous -DisplayName downloadMusic *>$null;}" 
+powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :musicLoop
 FOR /F "tokens=*" %%a IN ('%musicProgressBar%') DO (
@@ -421,7 +428,7 @@ echo Download Complete
 echo.
 cls
 echo Installing...
-%adb% install Files\music\music.apk 1>nul
+%adb% install-multiple -r %archDestination% %rootDestination% 1>nul
 cls
 echo Installed
 ping 127.0.0.1 -n 2 >nul
