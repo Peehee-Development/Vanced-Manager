@@ -11,3 +11,4 @@ This is a batch file that when run on your computer will do the following.
 
 
 How to use:
+1) you will need to download 7zip
