@@ -63,8 +63,7 @@ cls
 set "checkInternet2=____________________________"
 set "checkInternet3=                            "
 set "checkInternet4= Internet is not connected. "
-set "checkInternet5=____________________________"
-call :UI "96", "!checkInternet2!", "!checkInternet3!", "!checkInternet4!", "!checkInternet5!"
+call :UI "96", "!checkInternet2!", "!checkInternet3!", "!checkInternet4!", "!checkInternet2!"
 
 set /a "tryConnect+=1"
 
@@ -106,8 +105,7 @@ if %filesMissing%==1 (
 	set "isAdbInstalled2=___________________________________________________________________________"
 	set "isAdbInstalled3=                                                                           "
 	set "isAdbInstalled4= In order for this program to work properly, it will need to download ADB. "
-	set "isAdbInstalled5=___________________________________________________________________________"
-	call :UI "96", "!isAdbInstalled2!", "!isAdbInstalled3!", "!isAdbInstalled4!", "!isAdbInstalled5!"
+	call :UI "96", "!isAdbInstalled2!", "!isAdbInstalled3!", "!isAdbInstalled4!", "!isAdbInstalled2!"
 	
 	echo     Download ADB [[93m1[0m]   Quit [[93mQ[0m]
 	CHOICE /C 1Q /N
@@ -168,8 +166,7 @@ goto EXIT
 set "deviceConnected2=_________________________________"
 set "deviceConnected3=                                 "
 set "deviceConnected4= Device connected sucsessfully^^^!^^^! "
-set "deviceConnected5=_________________________________"
-call :UI "34", "!deviceConnected2!", "!deviceConnected3!", "!deviceConnected4!", "!deviceConnected5!"
+call :UI "34", "!deviceConnected2!", "!deviceConnected3!", "!deviceConnected4!", "!deviceConnected2!"
 exit /b
 
 
@@ -269,7 +266,6 @@ echo   ===========================================================
 echo.
 echo     Refresh [[93mR[0m]   Quit [[93mQ[0m]
 CHOICE /C 12rq /N
-rem CHOICE /C 12rq /N /M "     Enter your Choice [1,2,R,Q] :"
 IF %ERRORLEVEL% EQU 4 goto EXIT
 IF %ERRORLEVEL% EQU 3 goto beginning
 IF %ERRORLEVEL% EQU 2 call :updateMicroG
@@ -441,8 +437,7 @@ exit /b
 set "noDevice2=_____________________________________________________________________"
 set "noDevice3=                                                                     "
 set "noDevice4= Please make sure device is plugged in and USB Debugging is enabled. "
-set "noDevice5=_____________________________________________________________________"
-call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice5!"
+call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice2!"
 echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
 
 CHOICE /C RQ /N
@@ -456,8 +451,7 @@ IF %ERRORLEVEL% EQU 1 goto beginning
 set "deviceunauthorized2=_________________________________"
 set "deviceunauthorized3=                                 "
 set "deviceunauthorized4= Please authorize USB Debugging. "
-set "deviceunauthorized5=_________________________________"
-call :UI "35", "!deviceunauthorized2!", "!deviceunauthorized3!", "!deviceunauthorized4!", "!deviceunauthorized5!"
+call :UI "35", "!deviceunauthorized2!", "!deviceunauthorized3!", "!deviceunauthorized4!", "!deviceunauthorized2!"
 echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
 CHOICE /C RQ /N
 IF %ERRORLEVEL% EQU 2 goto EXIT
@@ -470,8 +464,7 @@ IF %ERRORLEVEL% EQU 1 goto beginning
 set "programAlreadyRunning2=_____________________________________"
 set "programAlreadyRunning3=                                     "
 set "programAlreadyRunning4= Error^^^!^^^! Program is already running. "
-set "programAlreadyRunning5=_____________________________________"
-call :UI "31", "!programAlreadyRunning2!", "!programAlreadyRunning3!", "!programAlreadyRunning4!", "!programAlreadyRunning5!"
+call :UI "31", "!programAlreadyRunning2!", "!programAlreadyRunning3!", "!programAlreadyRunning4!", "!programAlreadyRunning2!"
 echo       Press any key to exit
 pause >nul
 goto EXIT
