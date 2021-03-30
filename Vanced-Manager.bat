@@ -439,7 +439,6 @@ set "noDevice3=                                                                 
 set "noDevice4= Please make sure device is plugged in and USB Debugging is enabled. "
 call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice2!"
 echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
-
 CHOICE /C RQ /N
 IF %ERRORLEVEL% EQU 2 goto EXIT
 IF %ERRORLEVEL% EQU 1 goto beginning
