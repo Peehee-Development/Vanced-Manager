@@ -324,37 +324,6 @@ echo Installed
 ping 127.0.0.1 -n 2 >nul
 exit /b
 
-:root
-
-set %~1=nonroot
-for /f "tokens=*" %%a IN ('%adb% shell su 2^>nul ^|find "#"') DO (
-	CHOICE /C 12 /N /M "Select [1] for nonroot [2] for root"
-	IF %ERRORLEVEL% EQU 2 set %~1=nonroot
-)
-exit /b
-
-
-:theme
-
-CHOICE /C 12 /N /M "Select [1] for Dark [2] for Black"
-IF %ERRORLEVEL% EQU 2 set %~1=black
-IF %ERRORLEVEL% EQU 1 set %~1=dark
-exit /b
-
-
-
-:arch
-
-for /f "tokens=*" %%a IN ('%adb% shell getprop ro.product.cpu.abi') DO (set arch=%%a)
-set %~1=%arch:-=_%
-exit /b
-
-
-
-:language
-
-set %~1=en
-exit /b
 
 
 
@@ -432,7 +401,37 @@ exit /b
 
 
 
+:root
 
+set %~1=nonroot
+for /f "tokens=*" %%a IN ('%adb% shell su 2^>nul ^|find "#"') DO (
+	CHOICE /C 12 /N /M "Select [1] for nonroot [2] for root"
+	IF %ERRORLEVEL% EQU 2 set %~1=nonroot
+)
+exit /b
+
+
+:theme
+
+CHOICE /C 12 /N /M "Select [1] for Dark [2] for Black"
+IF %ERRORLEVEL% EQU 2 set %~1=black
+IF %ERRORLEVEL% EQU 1 set %~1=dark
+exit /b
+
+
+
+:arch
+
+for /f "tokens=*" %%a IN ('%adb% shell getprop ro.product.cpu.abi') DO (set arch=%%a)
+set %~1=%arch:-=_%
+exit /b
+
+
+
+:language
+
+set %~1=en
+exit /b
 
 
 
