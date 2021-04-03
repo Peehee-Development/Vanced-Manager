@@ -8,19 +8,30 @@ set mSpinner=.
 mode con cols=85 lines=22
 
 
-REM _________To do list__________
+REM   _________To do list__________
+
 REM isRoot
 REM Buggy mode con animation
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
-REM Add YouTube Music
+REM Add YouTube Music UI
 REM Download / Install UI
 REM Fix for loop goto nextline crap
+
+
+REM   _________Manager v1.1__________
+
+REM Uninstall microg and vanced
+REM Uninstall Youtube (not vanced)
+REM Works offline
+REM Install specific versions
+REM Options menu
+
 
 
 :beginning
 
 cls
-call :createFolders
+
 call :isAdbInstalled
 call :checkADB
 call :deviceConnected
@@ -76,15 +87,6 @@ if not %tryConnect%==10 (
 CHOICE /C RQ /N /M "Failed to connect. Select [R] Retry or [Q] Quit"
 IF %ERRORLEVEL% EQU 2 goto exit
 IF %ERRORLEVEL% EQU 1 set tryConnect=1 & goto checkInternet
-
-
-
-:createFolders
-
-if not exist Files\microg md Files\microg
-if not exist Files\vanced md Files\vanced
-if not exist Files\music md Files\music
-exit /b
 
 
 
@@ -172,7 +174,7 @@ exit /b
 
 
 :getLatestVersions
-
+if not exist Files md Files
 call :checkInternet
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://vancedapp.com/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """vanced""" Files\latest.json') do set vancedline=%%a
@@ -184,6 +186,7 @@ for /f tokens^=3^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """music""" Files\latest.json') do set musicline=%%a
 for /f tokens^=3^ skip^=%musicline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMusicVersion=%%a& goto :nextline3
 :nextline3
+
 exit /b
 
 
@@ -287,14 +290,15 @@ call :language lang
 cls
 echo Downloading latest Vanced... [0%%]
 echo.	
+if not exist Files\vanced md Files\vanced\v%latestVancedVersion%
 rem set latestVancedVersion=15.43.32
 set archURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Arch/split_config.%arch%.apk
 set langURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Language/split_config.%lang%.apk
 set themeURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Theme/%theme%.apk
 
-set archDestination=Files\vanced\config.%arch%.apk
-set langDestination=Files\vanced\split_config.%lang%.apk
-set themeDestination=Files\vanced\YouTube_%latestVancedVersion%_API21nodpiv%theme%-v2.1.0-vanced.apk
+set archDestination=Files\vanced\v%latestVancedVersion%\config.%arch%.apk
+set langDestination=Files\vanced\v%latestVancedVersion%\split_config.%lang%.apk
+set themeDestination=Files\vanced\v%latestVancedVersion%\YouTube_%latestVancedVersion%_API21nodpiv%theme%-v2.1.0-vanced.apk
 
 powershell -Command "& { Get-BitsTransfer -Name "downloadVanced*"| Complete-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:langURL", "$env:themeURL" -Destination "$env:archDestination", "$env:langDestination", "$env:themeDestination" -Asynchronous -DisplayName downloadVanced *>$null;}"
@@ -330,8 +334,9 @@ call :checkADB
 cls
 echo Downloading latest MicroG... [0%%]
 echo.
+if not exist Files\microg md Files\microg\v%latestMicroGVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG*"| Complete-BitsTransfer }
-powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://github.com/YTVanced/VancedMicroG/releases/latest/download/microg.apk" -Destination "Files\microG\microG.apk" -Asynchronous -DisplayName downloadMicroG *>$null;}" 
+powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://github.com/YTVanced/VancedMicroG/releases/latest/download/microg.apk" -Destination "Files\microG\v%latestMicroGVersion%\microG.apk" -Asynchronous -DisplayName downloadMicroG *>$null;}" 
 set microgProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :microgLoop
 FOR /F "tokens=*" %%a IN ('%microgProgressBar%') DO (
@@ -348,7 +353,7 @@ echo Download Complete
 echo.
 cls
 echo Installing...
-%adb% install Files\microG\microg.apk 1>nul
+%adb% install Files\microG\v%latestMicroGVersion%\microg.apk 1>nul
 cls
 echo Installed
 ping 127.0.0.1 -n 2 >nul
@@ -366,11 +371,12 @@ call :arch arch
 set archURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/stock/%arch%.apk
 set rootURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk
 
-set archDestination=Files\music\%arch%.apk
-set rootDestination=Files\music\%isRoot%.apk
+set archDestination=Files\music\v%latestMicroGVersion%\%arch%.apk
+set rootDestination=Files\music\v%latestMicroGVersion%\%isRoot%.apk
 cls
 echo Downloading latest Music... [0%%]
 echo.
+if not exist Files\music md Files\music\v%latestMusicVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
