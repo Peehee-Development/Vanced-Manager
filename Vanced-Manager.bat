@@ -191,6 +191,8 @@ exit /b
 
 
 
+echo this might work lol
+
 :isVancedInstalled
 
 echo hypothetically without the bug, since it is a new commit
