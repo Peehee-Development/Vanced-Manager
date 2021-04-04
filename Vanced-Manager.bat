@@ -248,10 +248,10 @@ exit /b
 
 :Manager
 
+call :getLatestVersions
 call :isVancedInstalled
 call :isMicroGInstalled
 call :isMusicInstalled
-call :getLatestVersions
 cls
 echo.
 echo     [1mVanced Manager[0m
