@@ -193,6 +193,8 @@ exit /b
 
 :isVancedInstalled
 
+echo hypothetically without the bug, since it is a new commit
+pause
 set isVancedInstalledparameter=0
 set VancedUpdateInstall=  Install
 set currentVancedVersion=None
