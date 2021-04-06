@@ -5,7 +5,7 @@ pushd "%~dp0"
 title Vanced Manager for Windows
 set tryConnect=1
 set mSpinner=.
-mode con cols=85 lines=22
+mode con cols=85 lines=24
 
 
 REM   _________To do list__________
@@ -16,6 +16,7 @@ REM Before "installed" for microG and Vanced, call the isInstalled function. If 
 REM Add YouTube Music UI
 REM Download / Install UI
 REM Fix for loop goto nextline crap
+REM Make it always crlf
 
 
 REM   _________Manager v1.1__________
@@ -191,12 +192,8 @@ exit /b
 
 
 
-echo this might work lol
-
 :isVancedInstalled
 
-echo hypothetically without the bug, since it is a new commit
-pause
 set isVancedInstalledparameter=0
 set VancedUpdateInstall=  Install
 set currentVancedVersion=None
@@ -248,10 +245,10 @@ exit /b
 
 :Manager
 
-call :getLatestVersions
 call :isVancedInstalled
 call :isMicroGInstalled
 call :isMusicInstalled
+call :getLatestVersions
 cls
 echo.
 echo     [1mVanced Manager[0m
@@ -269,12 +266,19 @@ echo       Latest: %latestMicroGVersion%                  [0m%MicroGUpdateInsta
 echo       Installed: %currentMicroGVersion%
 echo.
 echo    --------------------------------------------------------- 
+echo [94m     Music [0m
+echo.
+echo       Latest: %latestMusicVersion%                        [0m%musicUpdateInstall% [0m[[93m2[0m]
+echo       Installed: %currentMusicVersion%
+echo.
+echo    --------------------------------------------------------- 
 echo   ===========================================================
 echo.
 echo     Refresh [[93mR[0m]   Quit [[93mQ[0m]
 CHOICE /C 12rq /N
-IF %ERRORLEVEL% EQU 4 goto EXIT
-IF %ERRORLEVEL% EQU 3 goto beginning
+IF %ERRORLEVEL% EQU 5 goto EXIT
+IF %ERRORLEVEL% EQU 4 goto beginning
+IF %ERRORLEVEL% EQU 3 call :updateMusic
 IF %ERRORLEVEL% EQU 2 call :updateMicroG
 IF %ERRORLEVEL% EQU 1 call :updateVanced
 goto Manager
