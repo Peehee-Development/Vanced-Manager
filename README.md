@@ -24,6 +24,7 @@ What you will need:
 3) Enable USB Debugging
 4) Enable Install Via USB (If Xiaomi)
 5) If a pop-up comes up to download Vanced and MIcroG, Allow Download.
+6) Make sure you are running it as a crlf as apposed to lf
 
 
 First attempt at a commit git
