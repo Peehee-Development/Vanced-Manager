@@ -5,7 +5,7 @@ pushd "%~dp0"
 title Vanced Manager for Windows
 set tryConnect=1
 set mSpinner=.
-mode con cols=85 lines=24
+mode con cols=85 lines=28
 
 
 REM   _________To do list__________
@@ -49,12 +49,17 @@ echo    ---------------------------------------------------------
 echo.
 echo.
 echo.
+echo.
+echo.
 echo. [%~1m
 echo     %~2
 echo    ^|%~3^|
 echo    ^|%~4^|
 echo    ^|%~5^|
 echo. [0m
+echo.
+echo.
+echo.
 echo.
 echo.
 echo.
@@ -245,10 +250,10 @@ exit /b
 
 :Manager
 
+call :getLatestVersions
 call :isVancedInstalled
 call :isMicroGInstalled
 call :isMusicInstalled
-call :getLatestVersions
 cls
 echo.
 echo     [1mVanced Manager[0m
@@ -260,26 +265,26 @@ echo       Latest: !latestVancedVersion!                       [0m%VancedUpdate
 echo       Installed: %currentVancedVersion%
 echo.
 echo    ---------------------------------------------------------
-echo [94m     MicroG [0m
-echo.
-echo       Latest: %latestMicroGVersion%                  [0m%MicroGUpdateInstall% [0m[[93m2[0m]
-echo       Installed: %currentMicroGVersion%
-echo.
-echo    --------------------------------------------------------- 
-echo [94m     Music [0m
+echo [94m     YouTube Music [0m
 echo.
 echo       Latest: %latestMusicVersion%                        [0m%musicUpdateInstall% [0m[[93m2[0m]
 echo       Installed: %currentMusicVersion%
 echo.
 echo    --------------------------------------------------------- 
+echo [94m     MicroG [0m
+echo.
+echo       Latest: %latestMicroGVersion%                  [0m%MicroGUpdateInstall% [0m[[93m3[0m]
+echo       Installed: %currentMicroGVersion%
+echo.
+echo    --------------------------------------------------------- 
 echo   ===========================================================
 echo.
 echo     Refresh [[93mR[0m]   Quit [[93mQ[0m]
-CHOICE /C 12rq /N
+CHOICE /C 123rq /N
 IF %ERRORLEVEL% EQU 5 goto EXIT
 IF %ERRORLEVEL% EQU 4 goto beginning
-IF %ERRORLEVEL% EQU 3 call :updateMusic
-IF %ERRORLEVEL% EQU 2 call :updateMicroG
+IF %ERRORLEVEL% EQU 3 call :updateMicroG
+IF %ERRORLEVEL% EQU 2 call :updateMusic
 IF %ERRORLEVEL% EQU 1 call :updateVanced
 goto Manager
 EXIT /b
