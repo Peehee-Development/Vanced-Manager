@@ -17,6 +17,8 @@ REM Add YouTube Music UI
 REM Download / Install UI
 REM Fix for loop goto nextline crap
 REM Make it always crlf
+REM we should download microG from vancedapp, not from github
+
 
 
 REM   _________Manager v1.1__________
