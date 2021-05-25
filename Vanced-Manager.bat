@@ -1,22 +1,21 @@
 @echo off
+mode con cols=85 lines=28
 setlocal enabledelayedexpansion
 tasklist /fi "IMAGENAME eq cmd.exe" /fi "WINDOWTITLE eq Vanced Manager for Windows" |find "No tasks" >nul || goto programAlreadyRunning
-pushd "%~dp0"
 title Vanced Manager for Windows
+pushd "%~dp0"
 set tryConnect=1
 set mSpinner=.
-mode con cols=85 lines=28
 
 
 REM   _________To do list__________
 
 REM isRoot
-REM Buggy mode con animation
+REM lang
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
 REM Add YouTube Music UI
 REM Download / Install UI
 REM Fix for loop goto nextline crap
-REM Make it always crlf
 REM we should download microG from vancedapp, not from github
 
 
@@ -37,7 +36,6 @@ cls
 
 call :isAdbInstalled
 call :checkADB
-call :deviceConnected
 call :Manager
 
 
@@ -162,13 +160,37 @@ exit /b
 :checkADB
 
 for /f "tokens=1-5" %%a in ('%adb% devices') do set "isAdbConnected=%%b"
-if %isAdbConnected% ==device ( exit /b )
+if %isAdbConnected% ==device ( goto deviceConnected )
 if %isAdbConnected% ==of ( goto noDevice )
 if %isAdbConnected% ==unauthorized ( goto unauthorized ) else ( echo error adb )
 echo Something went wrong, press any key to exit
 pause >nul
 goto EXIT
 
+
+
+:noDevice
+
+set "noDevice2=_____________________________________________________________________"
+set "noDevice3=                                                                     "
+set "noDevice4= Please make sure device is plugged in and USB Debugging is enabled. "
+call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice2!"
+echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
+CHOICE /C RQ /N
+IF %ERRORLEVEL% EQU 2 goto EXIT
+IF %ERRORLEVEL% EQU 1 goto beginning
+
+
+:unauthorized
+
+set "deviceunauthorized2=_________________________________"
+set "deviceunauthorized3=                                 "
+set "deviceunauthorized4= Please authorize USB Debugging. "
+call :UI "35", "!deviceunauthorized2!", "!deviceunauthorized3!", "!deviceunauthorized4!", "!deviceunauthorized2!"
+echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
+CHOICE /C RQ /N
+IF %ERRORLEVEL% EQU 2 goto EXIT
+IF %ERRORLEVEL% EQU 1 goto beginning
 
 
 :deviceConnected
@@ -305,7 +327,7 @@ call :language lang
 cls
 echo Downloading latest Vanced... [0%%]
 echo.	
-if not exist Files\vanced md Files\vanced\v%latestVancedVersion%
+if not exist Files\vanced\v%latestVancedVersion% md Files\vanced\v%latestVancedVersion%
 rem set latestVancedVersion=15.43.32
 set archURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Arch/split_config.%arch%.apk
 set langURL=https://vancedapp.com/api/v1/apks/v%latestVancedVersion%/%isRoot%/Language/split_config.%lang%.apk
@@ -346,17 +368,19 @@ exit /b
 
 call :checkInternet
 call :checkADB
+
 cls
 echo Downloading latest MicroG... [0%%]
 echo.
-if not exist Files\microg md Files\microg\v%latestMicroGVersion%
+if not exist Files\microg\v%latestMicroGVersion% md Files\microg\v%latestMicroGVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG*"| Complete-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://github.com/YTVanced/VancedMicroG/releases/latest/download/microg.apk" -Destination "Files\microG\v%latestMicroGVersion%\microG.apk" -Asynchronous -DisplayName downloadMicroG *>$null;}" 
 set microgProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :microgLoop
 FOR /F "tokens=*" %%a IN ('%microgProgressBar%') DO (
 cls 
-echo Downloading latest MicroG... [%%a%%]
+call :ProgressMeter %%a, MicroG
+rem echo Downloading latest MicroG... [%%a%%]
 if %%a == 100 cls & goto endMicrogLoop
 )
 
@@ -374,6 +398,34 @@ echo Installed
 ping 127.0.0.1 -n 2 >nul
 exit /b
 
+:ProgressMeter
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET ProgressPercent=%~1
+SET /A NumBars=%ProgressPercent%/4
+SET /A NumSpaces=25-%NumBars%
+
+SET Meter=
+
+FOR /L %%A IN (%NumBars%,-1,1) DO SET Meter=!Meter!I
+FOR /L %%A IN (%NumSpaces%,-1,1) DO SET Meter=!Meter! 
+
+echo.
+rem echo     [1mVanced Manager[0m
+echo     [94m%~2 [0m
+echo   ===========================================================
+echo    ---------------------------------------------------------
+rem echo      [94m%~2 [0m
+rem echo.
+echo       Downloading...
+echo.
+echo       Progress:  [%Meter%]  %ProgressPercent%%%
+echo.
+if !ProgressPercent!==100 (echo       Download Complete.) else (echo.)
+echo    ---------------------------------------------------------
+echo   ===========================================================
+ENDLOCAL
+exit /b
+
 
 
 :updateMusic
@@ -389,32 +441,36 @@ set rootURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.ap
 
 set archDestination=Files\music\v%latestMusicVersion%\%arch%.apk
 set rootDestination=Files\music\v%latestMusicVersion%\%isRoot%.apk
+
 cls
-echo Downloading latest Music... [0%%]
+call :ProgressMeter "0","Vanced Music"
 echo.
-if not exist Files\music md Files\music\v%latestMusicVersion%
+
+if not exist Files\music\v%latestMusicVersion% md Files\music\v%latestMusicVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
+
 :musicLoop
 FOR /F "tokens=*" %%a IN ('%musicProgressBar%') DO (
-cls 
-echo Downloading latest Music... [%%a%%]
-if %%a == 100 cls & goto endMusicLoop
-)
+cls
+call :ProgressMeter "%%a","Vanced Music"
+if %%a == 100 goto endMusicLoop
 
+)
 goto musicLoop
+
 :endMusicLoop
-echo Downloading latest Music... [100%%]
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic"| Complete-BitsTransfer }	
-echo Download Complete
-echo.
-cls
-echo Installing...
+echo    ---------------------------------------------------------
+echo       Installing...
 %adb% install %rootDestination% 1>nul
-cls
-echo Installed
-ping 127.0.0.1 -n 2 >nul
+echo.
+echo       Installed.
+echo    ---------------------------------------------------------
+echo   ===========================================================
+
+ping 127.0.0.1 -n 20 >nul
 exit /b
 
 
@@ -452,31 +508,6 @@ set %~1=en
 exit /b
 
 
-
-
-:noDevice
-
-set "noDevice2=_____________________________________________________________________"
-set "noDevice3=                                                                     "
-set "noDevice4= Please make sure device is plugged in and USB Debugging is enabled. "
-call :UI "31", "!noDevice2!", "!noDevice3!", "!noDevice4!", "!noDevice2!"
-echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
-CHOICE /C RQ /N
-IF %ERRORLEVEL% EQU 2 goto EXIT
-IF %ERRORLEVEL% EQU 1 goto beginning
-
-
-
-:unauthorized
-
-set "deviceunauthorized2=_________________________________"
-set "deviceunauthorized3=                                 "
-set "deviceunauthorized4= Please authorize USB Debugging. "
-call :UI "35", "!deviceunauthorized2!", "!deviceunauthorized3!", "!deviceunauthorized4!", "!deviceunauthorized2!"
-echo       Refresh [[93mR[0m]   Quit [[93mQ[0m]
-CHOICE /C RQ /N
-IF %ERRORLEVEL% EQU 2 goto EXIT
-IF %ERRORLEVEL% EQU 1 goto beginning
 
 
 
