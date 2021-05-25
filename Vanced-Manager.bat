@@ -303,9 +303,10 @@ echo.
 echo    --------------------------------------------------------- 
 echo   ===========================================================
 echo.
-echo     Refresh [[93mR[0m]   Quit [[93mQ[0m]
-CHOICE /C 123rq /N
-IF %ERRORLEVEL% EQU 5 goto EXIT
+echo     Refresh [[93mR[0m]   Vanced Website [[93mV[0m]   Quit [[93mQ[0m]
+CHOICE /C 123rvq /N
+IF %ERRORLEVEL% EQU 6 goto EXIT
+IF %ERRORLEVEL% EQU 5 start "" https://vancedapp.com/
 IF %ERRORLEVEL% EQU 4 goto beginning
 IF %ERRORLEVEL% EQU 3 call :updateMicroG
 IF %ERRORLEVEL% EQU 2 call :updateMusic
