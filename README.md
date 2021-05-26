@@ -1,34 +1,20 @@
 # Vanced Manager for Windows
 
+This batch file will Install / Update YouTube Vanced, Vanced Music, and MicroG on your android phone and tablet.
 
-This is a batch file that when run on your computer will do the following. 
-When this batch file runs, it will;
-1) Install / Update YouTube Vanced, Vanced Music, and MicroG.
+Begin here.
+1) PLug the externl device into the computer.
 
-You will have to enable USB debugging which is available in developer options. Once enabled, press R to refresh, enable USB debugginhg on the device and continue to the next step. You will then be presented with a menu. From this menu you can download Youtube Vanced, Youtube Music and MicroG by pressing the correlated keys. Once finished, press V to visit the official Vanced website, or Q to quit. 
-
-
-
-How to use:
-1) You will need to download 7Zip.
-2) Next, unZip the 7Zip file.
-3) You will recieve a bat file.
-4) Just press the bat file twice to run it.
-5) In the window follow the instructions.
-6) Enjoy Vanced :)
-
-
-What you will need:
-1) 7Zip
-2) A cable connecting the phone to the computer
-3) Enable USB Debugging
-4) Enable Install Via USB (If Xiaomi)
-5) If a pop-up comes up to download Vanced and MIcroG, Allow Download.
-6) Make sure you are running it as a crlf as apposed to lf
-
-
-First attempt at a commit git
-
+How to download the file and run;
+1) Download the zip file from the green code indicator.
+2) Once downloaded, save to a folder and unzip / extract.
+3) Open the folder, and run vanced-manager.bat.
+4) You will be presented with a menu, follow indicators. 
+              1. You will have to enable USB debugging which is available in developer options on the external device. 
+              2. Once enabled, press R to refresh, enable USB debugginhg on the device and continue to the next step. 
+              3. You will then be presented with a menu. 
+                 From this menu you can download Youtube Vanced, Youtube Music and MicroG by pressing the correlated keys. 
+              4. Once finished, press V to visit the official Vanced website, or Q to quit. 
 
 
 © PeeHee-Development 
