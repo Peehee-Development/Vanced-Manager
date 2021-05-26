@@ -371,7 +371,7 @@ call :checkInternet
 call :checkADB
 
 cls
-echo Downloading latest MicroG... [0%%]
+call :downloadUI "0","MicroG"
 echo.
 if not exist Files\microg\v%latestMicroGVersion% md Files\microg\v%latestMicroGVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG*"| Complete-BitsTransfer }
@@ -380,51 +380,22 @@ set microgProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -N
 :microgLoop
 FOR /F "tokens=*" %%a IN ('%microgProgressBar%') DO (
 cls 
-call :ProgressMeter %%a, MicroG
+call :downloadUI %%a, MicroG
 rem echo Downloading latest MicroG... [%%a%%]
-if %%a == 100 cls & goto endMicrogLoop
+if %%a == 100 goto endMicrogLoop
 )
 
 goto microgLoop
 :endMicrogLoop
-echo Downloading latest MicroG... [100%%]
 powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG"| Complete-BitsTransfer }	
-echo Download Complete
-echo.
-cls
-echo Installing...
+echo    ---------------------------------------------------------
+echo       Installing...
 %adb% install Files\microG\v%latestMicroGVersion%\microg.apk 1>nul
-cls
-echo Installed
+echo.
+echo       Installed.
+echo    ---------------------------------------------------------
+echo   ===========================================================
 ping 127.0.0.1 -n 2 >nul
-exit /b
-
-:ProgressMeter
-SETLOCAL ENABLEDELAYEDEXPANSION
-SET ProgressPercent=%~1
-SET /A NumBars=%ProgressPercent%/4
-SET /A NumSpaces=25-%NumBars%
-
-SET Meter=
-
-FOR /L %%A IN (%NumBars%,-1,1) DO SET Meter=!Meter!I
-FOR /L %%A IN (%NumSpaces%,-1,1) DO SET Meter=!Meter! 
-
-echo.
-rem echo     [1mVanced Manager[0m
-echo     [94m%~2 [0m
-echo   ===========================================================
-echo    ---------------------------------------------------------
-rem echo      [94m%~2 [0m
-rem echo.
-echo       Downloading...
-echo.
-echo       Progress:  [%Meter%]  %ProgressPercent%%%
-echo.
-if !ProgressPercent!==100 (echo       Download Complete.) else (echo.)
-echo    ---------------------------------------------------------
-echo   ===========================================================
-ENDLOCAL
 exit /b
 
 
@@ -444,28 +415,58 @@ set archDestination=Files\music\v%latestMusicVersion%\%arch%.apk
 set rootDestination=Files\music\v%latestMusicVersion%\%isRoot%.apk
 
 cls
-call :ProgressMeter "0","Vanced Music"
+call :downloadUI "0","Vanced Music"
 echo.
-
 if not exist Files\music\v%latestMusicVersion% md Files\music\v%latestMusicVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
-
 :musicLoop
 FOR /F "tokens=*" %%a IN ('%musicProgressBar%') DO (
 cls
-call :ProgressMeter "%%a","Vanced Music"
+call :downloadUI "%%a","Vanced Music"
 if %%a == 100 goto endMusicLoop
-
 )
-goto musicLoop
 
+goto musicLoop
 :endMusicLoop
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic"| Complete-BitsTransfer }	
+call :installUI "%adb% install %rootDestination% 1>nul"
+exit /b
+
+
+
+:downloadUI
+SETLOCAL ENABLEDELAYEDEXPANSION
+SET ProgressPercent=%~1
+SET /A NumBars=%ProgressPercent%/4
+SET /A NumSpaces=25-%NumBars%
+
+SET Meter=
+
+FOR /L %%A IN (%NumBars%,-1,1) DO SET Meter=!Meter!I
+FOR /L %%A IN (%NumSpaces%,-1,1) DO SET Meter=!Meter! 
+
+echo.
+echo     [94m%~2 [0m
+echo   ===========================================================
+echo    ---------------------------------------------------------
+echo       Downloading...
+echo.
+echo       Progress:  [%Meter%]  %ProgressPercent%%%
+echo.
+if !ProgressPercent!==100 (echo       Download Complete.) else (echo.)
+echo    ---------------------------------------------------------
+echo   ===========================================================
+ENDLOCAL
+exit /b
+
+:installUI
 echo    ---------------------------------------------------------
 echo       Installing...
-%adb% install %rootDestination% 1>nul
+echo %~1
+pause
+%~1
 echo.
 echo       Installed.
 echo    ---------------------------------------------------------
@@ -473,6 +474,7 @@ echo   ===========================================================
 
 ping 127.0.0.1 -n 20 >nul
 exit /b
+
 
 
 
