@@ -1,12 +1,12 @@
-# Vanced-Manager
+# Vanced Manager for Windows
 
 
-This is a batch file that when run on your computer will do the following.
-1) Install ADB (Will be deleted after program finishes).
-2) Create Folders (Will be deleted after program finishes).
-3) Apon request, you can download onto your android phone: Vanced, MicroG, Music.
-4) Make sure you are up to date.
-5) Delete all stuff the file downloaded/made, except the apps on your phone.
+This is a batch file that when run on your computer will do the following. 
+When this batch file runs, it will;
+1) Install / Update YouTube Vanced, Vanced Music, and MicroG.
+
+You will have to enable USB debugging which is available in developer options. Once enabled, press R to refresh, enable USB debugginhg on the device and continue to the next step. You will then be presented with a menu. From this menu you can download Youtube Vanced, Youtube Music and MicroG by pressing the correlated keys. Once finished, press V to visit the official Vanced website, or Q to quit. 
+
 
 
 How to use:
