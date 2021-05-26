@@ -11,17 +11,16 @@ set mSpinner=.
 REM   _________To do list__________
 
 REM isRoot
-REM lang
 REM Before "installed" for microG and Vanced, call the isInstalled function. If not, display error.
-REM Add YouTube Music UI
-REM Download / Install UI
-REM Fix for loop goto nextline crap
-REM we should download microG from vancedapp, not from github
+REM Instructions on how to enable USB debugging
+REM Internet UI
+REM download UI for ADB
 
 
 
 REM   _________Manager v1.1__________
 
+REM lang
 REM Uninstall microg and vanced
 REM Uninstall Youtube (not vanced)
 REM Works offline
@@ -35,6 +34,7 @@ REM Options menu
 cls
 
 call :isAdbInstalled
+call :deviceConnected
 call :checkADB
 call :Manager
 
@@ -74,7 +74,8 @@ exit /b
 
 set mSpinner=%mSpinner%.
 if %mSpinner%'==....' (set mSpinner=.)
-ping -n 1 www.google.com > nul 2>&1 && (set tryConnect=1 & cls & exit /b)
+ping -n 1 www.google.com > nul 2>&1 && (set tryConnect=1 &  exit /b)
+REM add "cls &"
 cls
 
 set "checkInternet2=____________________________"
@@ -160,7 +161,7 @@ exit /b
 :checkADB
 
 for /f "tokens=1-5" %%a in ('%adb% devices') do set "isAdbConnected=%%b"
-if %isAdbConnected% ==device ( goto deviceConnected )
+if %isAdbConnected% ==device ( exit /b )
 if %isAdbConnected% ==of ( goto noDevice )
 if %isAdbConnected% ==unauthorized ( goto unauthorized ) else ( echo error adb )
 echo Something went wrong, press any key to exit
