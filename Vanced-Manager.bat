@@ -34,8 +34,8 @@ REM Options menu
 cls
 
 call :isAdbInstalled
-call :deviceConnected
 call :checkADB
+call :deviceConnected
 call :Manager
 
 
@@ -121,7 +121,7 @@ if %filesMissing%==1 (
 	IF !ERRORLEVEL! EQU 2 goto :EXIT
 	call :checkInternet
 	cls
-	echo Downloading ADB... [0%%]
+	call :downloadUI "0","ADB"
 	if not exist Files\adb md Files\adb
 	set adbDestination=Files\adb\adb.zip
 	powershell -Command "& { Get-BitsTransfer -Name "downloadADB*"| Complete-BitsTransfer }
@@ -129,27 +129,29 @@ if %filesMissing%==1 (
 	set ADBProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadADB"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadADB"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 	:ADBLoop
 	FOR /F "tokens=*" %%a IN ('%ADBProgressBar%') DO (
-		cls 
-		echo Downloading ADB... [%%a%%]
-		if %%a == 100 cls & goto endADBLoop
+
+		call :downloadUI "%%a","ADB"
+		if %%a == 100 goto endADBLoop
 	)
 	
 	goto ADBLoop
 	:endADBLoop
-	echo Downloading ADB... [100%%]
 	powershell -Command "& { Get-BitsTransfer -Name "downloadADB"| Complete-BitsTransfer }
-	
-	cls
-	echo Transferring ADB...
-	
-	set zipfile="%~dp0Files\adb\adb.zip\platform-tools"
+	call :installUI "call :adbFileTransfer"
+	rem echo Transferring ADB...
+	goto beginning
+
+
+	:adbFileTransfer
+	set zipfile=%~dp0Files\adb\adb.zip\platform-tools
 	set deletedZip=Files\adb\adb.zip*
-	set dst="%~dp0Files\adb"
+	set dst=%~dp0Files\adb
 
 	powershell.exe -nologo -noprofile -command "& {$files='adb.exe', 'AdbWinApi.dll', 'AdbWinUsbApi.dll' ;$app = New-Object -COM 'Shell.Application'; $app.NameSpace("$env:zipfile").Items() | ? { $files -contains $_.Name } | %% { $app.Namespace("$env:dst").MoveHere($_, 4);}}"
 	powershell -command "& { Remove-Item ("$env:deletedZip")}"	
 	!adb! start-server 2>nul
-	goto beginning
+	exit /b
+
 	
 
 )
@@ -327,7 +329,7 @@ call :arch arch
 call :language lang
 
 cls
-echo Downloading latest Vanced... [0%%]
+call :downloadUI "0","YouTube Vanced"
 echo.	
 if not exist Files\vanced\v%latestVancedVersion% md Files\vanced\v%latestVancedVersion%
 rem set latestVancedVersion=15.43.32
@@ -344,23 +346,15 @@ powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTran
 set vancedProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadVanced"| select-object -expandProperty BytesTotal; $transferredBytes = Get-BitsTransfer -Name "downloadVanced"| select-object -expandProperty BytesTransferred; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :vancedLoop
 FOR /F "tokens=*" %%a IN ('%vancedProgressBar%') DO (
-cls
-echo Downloading latest YouTube Vanced... [%%a%%]
-if %%a == 100 cls & goto endVancedLoop
+
+	call :downloadUI "%%a","YouTube Vanced"
+	if %%a == 100 goto endVancedLoop
 )
 
 goto vancedLoop
 :endVancedLoop
-echo Downloading latest YouTube Vanced... [100%%]
 powershell -Command "& { Get-BitsTransfer -Name "downloadVanced"| Complete-BitsTransfer }	
-echo Download Complete
-echo.
-cls 
-echo Installing...
-%adb% install-multiple -r %themeDestination% %archDestination% %langDestination% 1>nul
-cls
-echo Installed
-ping 127.0.0.1 -n 2 >nul
+call :installUI "%adb% install-multiple -r %themeDestination% %archDestination% %langDestination% 1>nul"
 exit /b
 
 
@@ -380,23 +374,15 @@ powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-
 set microgProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :microgLoop
 FOR /F "tokens=*" %%a IN ('%microgProgressBar%') DO (
-cls 
-call :downloadUI %%a, MicroG
-rem echo Downloading latest MicroG... [%%a%%]
-if %%a == 100 goto endMicrogLoop
+
+	call :downloadUI %%a, MicroG
+	if %%a == 100 goto endMicrogLoop
 )
 
 goto microgLoop
 :endMicrogLoop
 powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG"| Complete-BitsTransfer }	
-echo    ---------------------------------------------------------
-echo       Installing...
-%adb% install Files\microG\v%latestMicroGVersion%\microg.apk 1>nul
-echo.
-echo       Installed.
-echo    ---------------------------------------------------------
-echo   ===========================================================
-ping 127.0.0.1 -n 2 >nul
+call :installUI "%adb% install Files\microG\v%latestMicroGVersion%\microg.apk 1>nul"
 exit /b
 
 
@@ -420,13 +406,14 @@ call :downloadUI "0","Vanced Music"
 echo.
 if not exist Files\music\v%latestMusicVersion% md Files\music\v%latestMusicVersion%
 powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
-powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
+powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:rootURL" -Destination "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
+rem powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :musicLoop
 FOR /F "tokens=*" %%a IN ('%musicProgressBar%') DO (
-cls
-call :downloadUI "%%a","Vanced Music"
-if %%a == 100 goto endMusicLoop
+
+	call :downloadUI "%%a","Vanced Music"
+	if %%a == 100 goto endMusicLoop
 )
 
 goto musicLoop
@@ -448,6 +435,8 @@ SET Meter=
 FOR /L %%A IN (%NumBars%,-1,1) DO SET Meter=!Meter!I
 FOR /L %%A IN (%NumSpaces%,-1,1) DO SET Meter=!Meter! 
 
+cls
+
 echo.
 echo     [94m%~2 [0m
 echo   ===========================================================
@@ -465,15 +454,14 @@ exit /b
 :installUI
 echo    ---------------------------------------------------------
 echo       Installing...
-echo %~1
-pause
+echo.
 %~1
 echo.
 echo       Installed.
 echo    ---------------------------------------------------------
 echo   ===========================================================
 
-ping 127.0.0.1 -n 20 >nul
+ping 127.0.0.1 -n 2 >nul
 exit /b
 
 
@@ -481,6 +469,7 @@ exit /b
 
 :root
 
+cls
 set %~1=nonroot
 for /f "tokens=*" %%a IN ('%adb% shell su 2^>nul ^|find "#"') DO (
 	CHOICE /C 12 /N /M "Select [1] for nonroot [2] for root"
@@ -490,8 +479,17 @@ exit /b
 
 
 :theme
-
-CHOICE /C 12 /N /M "Select [1] for Dark [2] for Black"
+cls
+echo.
+echo.
+echo    Please select your theme:
+echo.
+echo   __________       __________
+echo   [100m          [0m                
+echo   [100m DARK [[93m1[0m[100m] [0m     [0m   BLACK [[93m2[0m]   
+echo   [100m__________[0m       __________
+echo.
+CHOICE /C 12 /N
 IF %ERRORLEVEL% EQU 2 set %~1=black
 IF %ERRORLEVEL% EQU 1 set %~1=dark
 exit /b
@@ -500,6 +498,7 @@ exit /b
 
 :arch
 
+cls
 for /f "tokens=*" %%a IN ('%adb% shell getprop ro.product.cpu.abi') DO (set arch=%%a)
 set %~1=%arch:-=_%
 exit /b
@@ -508,6 +507,7 @@ exit /b
 
 :language
 
+cls
 set %~1=en
 exit /b
 
