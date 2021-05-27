@@ -143,9 +143,9 @@ if %filesMissing%==1 (
 
 
 	:adbFileTransfer
-	set zipfile=%~dp0Files\adb\adb.zip\platform-tools
+	set "zipfile=%~dp0Files\adb\adb.zip\platform-tools"
 	set deletedZip=Files\adb\adb.zip*
-	set dst=%~dp0Files\adb
+	set "dst=%~dp0Files\adb"
 
 	powershell.exe -nologo -noprofile -command "& {$files='adb.exe', 'AdbWinApi.dll', 'AdbWinUsbApi.dll' ;$app = New-Object -COM 'Shell.Application'; $app.NameSpace("$env:zipfile").Items() | ? { $files -contains $_.Name } | %% { $app.Namespace("$env:dst").MoveHere($_, 4);}}"
 	powershell -command "& { Remove-Item ("$env:deletedZip")}"	
