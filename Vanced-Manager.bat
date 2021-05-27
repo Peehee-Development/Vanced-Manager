@@ -393,13 +393,13 @@ REM The Arch APK is most likely unnecessary
 call :checkInternet
 call :checkADB
 call :root isRoot
-call :arch arch
+rem call :arch arch
 
 set archURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/stock/%arch%.apk
-set rootURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk
+rem set rootURL=https://vancedapp.com/api/v1/music/v%latestMusicVersion%/%isRoot%.apk
 
 set archDestination=Files\music\v%latestMusicVersion%\%arch%.apk
-set rootDestination=Files\music\v%latestMusicVersion%\%isRoot%.apk
+rem set rootDestination=Files\music\v%latestMusicVersion%\%isRoot%.apk
 
 cls
 call :downloadUI "0","Vanced Music"
