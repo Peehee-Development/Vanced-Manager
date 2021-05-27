@@ -3,7 +3,7 @@
 This batch file will Install / Update YouTube Vanced, Vanced Music, and MicroG on your android phone and tablet.
 
 Begin here.
-1) PLug the externl device into the computer.
+1) Plug the external device into the computer.
 
 How to download the file and run;
 1) Download the zip file from the green code indicator.
