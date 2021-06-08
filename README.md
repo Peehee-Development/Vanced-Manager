@@ -7,6 +7,9 @@
 
 
 The purpose of this is to update [Youtube Vanced](https://vancedapp.com/), YouTube Music Vanced, and Vanced MicroG on your Android phone / tablet.
+
+Allows you to install / update vanced apps on Xiaomi phone without the need to disable MIUI Optimizations.
+
 In order for this to work, you'll first need to enable USB debugging.
 
 ### How to enable USB debugging:
@@ -68,21 +71,21 @@ In order for this to work, you'll first need to enable USB debugging.
   
 - Go to Settings → About, tap Build Number 7 Times.
   
-<img src="https://user-images.githubusercontent.com/43358608/121206889-80130a80-c881-11eb-9eb8-45e05b78ba0b.png" width="200"> &nbsp; 
-<img src="https://user-images.githubusercontent.com/43358608/121207432-f1eb5400-c881-11eb-81a2-b0bafc1c8141.png" width="200">
+  <img src="https://user-images.githubusercontent.com/43358608/121206889-80130a80-c881-11eb-9eb8-45e05b78ba0b.png" width="200"> &nbsp; 
+  <img src="https://user-images.githubusercontent.com/43358608/121207432-f1eb5400-c881-11eb-81a2-b0bafc1c8141.png" width="200">
 
 
 
   
   <br>
   
-- Go to Settings → System → Advanced → Developer options → USB Debugging,
+  - Go to Settings → System → Advanced → Developer options, enable USB Debugging.
   
 
-<img src="https://user-images.githubusercontent.com/43358608/121208529-ccab1580-c882-11eb-8683-014b50877edc.png" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121208738-f49a7900-c882-11eb-9c5f-9803ab0b048b.png" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121209134-43481300-c883-11eb-9e7b-08508500333b.png" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121209938-ef89f980-c883-11eb-8acd-6e4102025c4a.png" width="200">
+  <img src="https://user-images.githubusercontent.com/43358608/121208529-ccab1580-c882-11eb-8683-014b50877edc.png" width="200"> &nbsp;
+  <img src="https://user-images.githubusercontent.com/43358608/121208738-f49a7900-c882-11eb-9c5f-9803ab0b048b.png" width="200"> &nbsp;
+  <img src="https://user-images.githubusercontent.com/43358608/121209134-43481300-c883-11eb-9e7b-08508500333b.png" width="200"> &nbsp;
+  <img src="https://user-images.githubusercontent.com/43358608/121209938-ef89f980-c883-11eb-8acd-6e4102025c4a.png" width="200">
 
   
 
@@ -98,10 +101,13 @@ In order for this to work, you'll first need to enable USB debugging.
  Launch `Vanced-Manager.bat`
  
 <details>
-  <summary>A prompt should show up, confirm you want to allow USB debugging.</summary>
+  <summary>A prompt should show up on your phone / tablet, confirm you want to allow USB debugging.</summary>
   <br>
   
- <img src="https://user-images.githubusercontent.com/43358608/121111720-0eeb3d00-c818-11eb-8a4f-ff8908c80429.jpg" width="200">
+  <img src="https://user-images.githubusercontent.com/43358608/121111720-0eeb3d00-c818-11eb-8a4f-ff8908c80429.jpg" height="500"> &nbsp;
+  <img src="https://user-images.githubusercontent.com/43358608/121218656-9b831300-c88b-11eb-94a9-88c65f248531.png" height="500"> &nbsp;
+  
+
   
 </details>
 
