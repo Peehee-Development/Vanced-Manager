@@ -1,10 +1,5 @@
 # Vanced Manager for Windows
 
-[![Click here to Download](https://img.shields.io/github/downloads/Peehee-Development/Vanced-Manager/total.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest) [![Click here to Download](https://img.shields.io/github/release/Peehee-Development/Vanced-Manager.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
-
-
-[Instructions:](#how-to-enable-usb-debugging)
-
 
 ![image](https://user-images.githubusercontent.com/43358608/121217225-4f839e80-c88a-11eb-9bf5-09fa0ce31397.png)
 
@@ -106,6 +101,8 @@ In order for this to work, you'll first need to enable USB debugging.
 ---
 
 #### Once enabled, you can now plug your phone in.
+
+[Download the latest version](https://github.com/Peehee-Development/Vanced-Manager/releases/latest/download/Vanced-Manager.zip)
 
  Launch `Vanced-Manager.bat`
  
