@@ -2,8 +2,11 @@
 
 [Click here to Download](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
 
+![image](https://user-images.githubusercontent.com/43358608/121217225-4f839e80-c88a-11eb-9bf5-09fa0ce31397.png)
 
-The purpose of this is to update Youtube Vanced, YouTube Music Vanced, and Vanced MicroG on your Android phone / tablet.
+
+
+The purpose of this is to update [Youtube Vanced](https://vancedapp.com/), YouTube Music Vanced, and Vanced MicroG on your Android phone / tablet.
 In order for this to work, you'll first need to enable USB debugging.
 
 ### How to enable USB debugging:
