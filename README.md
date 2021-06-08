@@ -1,7 +1,7 @@
 # Vanced Manager for Windows
 
 
-[click here to jump to my anchor](#custom_anchor_name)
+[Instructions:](#how-to-enable-usb-debugging)
 
 
 
