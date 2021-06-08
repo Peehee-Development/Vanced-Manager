@@ -124,7 +124,7 @@ if %filesMissing%==1 (
 	call :downloadUI "0","ADB"
 	if not exist Files\adb md Files\adb
 	set adbDestination=Files\adb\adb.zip
-	powershell -Command "& { Get-BitsTransfer -Name "downloadADB*"| Complete-BitsTransfer }
+	powershell -Command "& { Get-BitsTransfer -Name "downloadADB*"| Remove-BitsTransfer }
 	powershell -Command "& { $ProgressPreference = 'SilentlyContinue' ;Start-BitsTransfer -Source "https://dl.google.com/android/repository/platform-tools_r31.0.0-windows.zip" -Destination "$env:adbDestination" -Asynchronous -DisplayName downloadADB *>$null;}" 
 	set ADBProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadADB"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadADB"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 	:ADBLoop
@@ -207,6 +207,7 @@ exit /b
 
 
 :getLatestVersions
+
 if not exist Files md Files
 call :checkInternet
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://vancedapp.com/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
@@ -341,7 +342,7 @@ set archDestination=Files\vanced\v%latestVancedVersion%\config.%arch%.apk
 set langDestination=Files\vanced\v%latestVancedVersion%\split_config.%lang%.apk
 set themeDestination=Files\vanced\v%latestVancedVersion%\YouTube_%latestVancedVersion%_API21nodpiv%theme%-v2.1.0-vanced.apk
 
-powershell -Command "& { Get-BitsTransfer -Name "downloadVanced*"| Complete-BitsTransfer }
+powershell -Command "& { Get-BitsTransfer -Name "downloadVanced*"| Remove-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:langURL", "$env:themeURL" -Destination "$env:archDestination", "$env:langDestination", "$env:themeDestination" -Asynchronous -DisplayName downloadVanced *>$null;}"
 set vancedProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadVanced"| select-object -expandProperty BytesTotal; $transferredBytes = Get-BitsTransfer -Name "downloadVanced"| select-object -expandProperty BytesTransferred; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :vancedLoop
@@ -369,7 +370,7 @@ cls
 call :downloadUI "0","MicroG"
 echo.
 if not exist Files\microg\v%latestMicroGVersion% md Files\microg\v%latestMicroGVersion%
-powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG*"| Complete-BitsTransfer }
+powershell -Command "& { Get-BitsTransfer -Name "downloadMicroG*"| Remove-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue' *>$null;Start-BitsTransfer -Source "https://github.com/YTVanced/VancedMicroG/releases/latest/download/microg.apk" -Destination "Files\microG\v%latestMicroGVersion%\microG.apk" -Asynchronous -DisplayName downloadMicroG *>$null;}" 
 set microgProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMicroG"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
 :microgLoop
@@ -405,7 +406,7 @@ cls
 call :downloadUI "0","Vanced Music"
 echo.
 if not exist Files\music\v%latestMusicVersion% md Files\music\v%latestMusicVersion%
-powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Complete-BitsTransfer }
+powershell -Command "& { Get-BitsTransfer -Name "downloadMusic*"| Remove-BitsTransfer }
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:rootURL" -Destination "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 rem powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "$env:archURL", "$env:rootURL" -Destination "$env:archDestination", "$env:rootDestination" -Asynchronous -DisplayName downloadMusic *>$null;}"
 set musicProgressBar= powershell -Command "& {$totalBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTotal ; $transferredBytes = Get-BitsTransfer -Name "downloadMusic"| select-object -expandProperty BytesTransferred ; $temp=($transferredBytes/$totalBytes); $temp2=[math]::round($temp,2)*100; write-output $temp2;}"
