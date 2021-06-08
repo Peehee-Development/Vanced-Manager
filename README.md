@@ -1,6 +1,7 @@
 # Vanced Manager for Windows
 
-[![Click here to Download](https://img.shields.io/github/downloads/Peehee-Development/Vanced-Manager/total.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
+[![Click here to Download](https://img.shields.io/github/downloads/Peehee-Development/Vanced-Manager/total.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest) [![Click here to Download](https://img.shields.io/github/release/Peehee-Development/Vanced-Manager.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
+
 
 [Instructions:](#how-to-enable-usb-debugging)
 
