@@ -1,18 +1,29 @@
 # Vanced Manager for Windows
 
+
+[click here to jump to my anchor](#custom_anchor_name)
+
+
+
+
 [Click here to Download](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
 
 ![image](https://user-images.githubusercontent.com/43358608/121217225-4f839e80-c88a-11eb-9bf5-09fa0ce31397.png)
 
 
 
-The purpose of this is to update [Youtube Vanced](https://vancedapp.com/), YouTube Music Vanced, and Vanced MicroG on your Android phone / tablet.
+The purpose of this is to install or update [Youtube Vanced](https://vancedapp.com/), YouTube Music Vanced, and Vanced MicroG on your Android phone / tablet.
 
-Allows you to install / update vanced apps on Xiaomi phone without the need to disable MIUI Optimizations.
+Allows you to install or update vanced apps on Xiaomi phone without the need to disable MIUI Optimizations.
 
 In order for this to work, you'll first need to enable USB debugging.
 
-### How to enable USB debugging:
+
+<a name="custom_anchor_name"></a>
+
+
+### How to enable USB debugging
+
 ---
 <details>
   <summary>For One UI  ( Samsung )</summary>
@@ -183,3 +194,5 @@ To continue running the program;
 Contributors:
 1) hutk1999
 2) asherperlmuter
+
+
