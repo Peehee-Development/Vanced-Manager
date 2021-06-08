@@ -34,19 +34,27 @@ In order for this to work, you'll first need to enable USB debugging.
   
   <br>
   
-- Go to Settings → About → Software information, tap Build Number 7 Times.
+- Go to Settings → About phone, tap MIUI version 7 times.
   
-<img src="https://user-images.githubusercontent.com/43358608/121108388-579ff780-c812-11eb-918f-8a6bb3eb0b18.jpg" width="200"> &nbsp; 
-<img src="https://user-images.githubusercontent.com/43358608/121108864-28d65100-c813-11eb-91d4-e36614c15635.jpg" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121109185-bc0f8680-c813-11eb-8dd0-5c07672bd197.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/43358608/121199791-e2690c80-c87b-11eb-9aa5-52d7c4938579.jpg" width="200"> &nbsp; 
+<img src="https://user-images.githubusercontent.com/43358608/121200184-3673f100-c87c-11eb-83e9-7a171336e757.jpg" width="200"> 
+  
+
+
 
   <br>
   
-- Go to Settings → Developer options → USB Debugging,
+- Go to Settings → Additional settings → Developer options, enable "USB debugging" and "Install via USB"
   
 
-<img src="https://user-images.githubusercontent.com/43358608/121109814-ed3c8680-c814-11eb-9460-6b927dde93de.jpg" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121109983-37256c80-c815-11eb-85d8-68687ae2e91d.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/43358608/121201172-fe20e280-c87c-11eb-9069-72e006870868.jpg" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121201571-4b9d4f80-c87d-11eb-9440-05788edcef5c.jpg" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121202620-1a714f00-c87e-11eb-8ad8-ff7109fa407a.jpg" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121203398-bc913700-c87e-11eb-9483-f9f70e46110b.jpg" width="200">
+
+  
+
+
 
 </details>
 
