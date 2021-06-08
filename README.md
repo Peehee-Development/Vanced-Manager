@@ -63,20 +63,29 @@ In order for this to work, you'll first need to enable USB debugging.
   
   <br>
   
-- Go to Settings → About → Software information, tap Build Number 7 Times.
+- Go to Settings → About, tap Build Number 7 Times.
   
-<img src="https://user-images.githubusercontent.com/43358608/121108388-579ff780-c812-11eb-918f-8a6bb3eb0b18.jpg" width="200"> &nbsp; 
-<img src="https://user-images.githubusercontent.com/43358608/121108864-28d65100-c813-11eb-91d4-e36614c15635.jpg" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121109185-bc0f8680-c813-11eb-8dd0-5c07672bd197.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/43358608/121206889-80130a80-c881-11eb-9eb8-45e05b78ba0b.png" width="200"> &nbsp; 
+<img src="https://user-images.githubusercontent.com/43358608/121207432-f1eb5400-c881-11eb-81a2-b0bafc1c8141.png" width="200">
 
+
+
+  
   <br>
   
-- Go to Settings → Developer options → USB Debugging,
+- Go to Settings → System → Advanced → Developer options → USB Debugging,
   
 
-<img src="https://user-images.githubusercontent.com/43358608/121109814-ed3c8680-c814-11eb-9460-6b927dde93de.jpg" width="200"> &nbsp;
-<img src="https://user-images.githubusercontent.com/43358608/121109983-37256c80-c815-11eb-85d8-68687ae2e91d.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/43358608/121208529-ccab1580-c882-11eb-8683-014b50877edc.png" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121208738-f49a7900-c882-11eb-9c5f-9803ab0b048b.png" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121209134-43481300-c883-11eb-9e7b-08508500333b.png" width="200"> &nbsp;
+<img src="https://user-images.githubusercontent.com/43358608/121209938-ef89f980-c883-11eb-8acd-6e4102025c4a.png" width="200">
 
+  
+
+  
+  
+  
 </details>
 
 ---
