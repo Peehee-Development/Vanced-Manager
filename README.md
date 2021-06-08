@@ -1,12 +1,9 @@
 # Vanced Manager for Windows
 
+[![Click here to Download](https://img.shields.io/github/downloads/Peehee-Development/Vanced-Manager/total.svg?style=for-the-badge)](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
 
 [Instructions:](#how-to-enable-usb-debugging)
 
-
-
-
-[Click here to Download](https://github.com/Peehee-Development/Vanced-Manager/releases/latest)
 
 ![image](https://user-images.githubusercontent.com/43358608/121217225-4f839e80-c88a-11eb-9bf5-09fa0ce31397.png)
 
@@ -22,7 +19,7 @@ In order for this to work, you'll first need to enable USB debugging.
 <a name="custom_anchor_name"></a>
 
 
-### How to enable USB debugging
+## How to enable USB debugging
 
 ---
 <details>
@@ -131,7 +128,14 @@ In order for this to work, you'll first need to enable USB debugging.
 
 
 ---
-To be continued...
+Enjoy!!
+
+## TODO
+- [ ] Add support for other languages (currently only English is supported)
+- [ ] Uninstall vanced apps
+- [ ] Uninstall stock YouTube apps
+- [ ] Works offline
+- [ ] Install specific versions
 
 
 
@@ -139,6 +143,13 @@ To be continued...
 
 
 
+
+
+© Peehee-Development 
+
+Contributors:
+1) hutk1999
+2) asherperlmuter
 
 
 
