@@ -24,7 +24,7 @@ In order for this to work, you'll first need to enable USB debugging.
   
   <br>
   
-- Go to Settings → About phone, tap MIUI version 7 times.
+- Go to Settings → About phone, **tap MIUI version 7 times.**
   
 <img src="https://user-images.githubusercontent.com/43358608/121199791-e2690c80-c87b-11eb-9aa5-52d7c4938579.jpg" width="200"> &nbsp; 
 <img src="https://user-images.githubusercontent.com/43358608/121200184-3673f100-c87c-11eb-83e9-7a171336e757.jpg" width="200"> 
@@ -53,7 +53,7 @@ In order for this to work, you'll first need to enable USB debugging.
   
   <br>
   
-- Go to Settings → About, tap Build Number 7 Times.
+- Go to Settings → About, **tap Build Number 7 Times.**
   
   <img src="https://user-images.githubusercontent.com/43358608/121206889-80130a80-c881-11eb-9eb8-45e05b78ba0b.png" width="200"> &nbsp; 
   <img src="https://user-images.githubusercontent.com/43358608/121207432-f1eb5400-c881-11eb-81a2-b0bafc1c8141.png" width="200">
@@ -83,7 +83,7 @@ In order for this to work, you'll first need to enable USB debugging.
   
   <br>
   
-- Go to Settings → About → Software information, tap Build Number 7 Times.
+- Go to Settings → About → Software information, **tap Build Number 7 Times.**
   
 <img src="https://user-images.githubusercontent.com/43358608/121108388-579ff780-c812-11eb-918f-8a6bb3eb0b18.jpg" width="200"> &nbsp; 
 <img src="https://user-images.githubusercontent.com/43358608/121108864-28d65100-c813-11eb-91d4-e36614c15635.jpg" width="200"> &nbsp;
