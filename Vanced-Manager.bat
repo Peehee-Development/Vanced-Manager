@@ -74,7 +74,7 @@ exit /b
 
 set mSpinner=%mSpinner%.
 if %mSpinner%'==....' (set mSpinner=.)
-ping -n 1 www.google.com > nul 2>&1 && (set tryConnect=1 &  exit /b)
+ping -n 1 8.8.8.8 > nul 2>&1 && (set tryConnect=1 &  exit /b)
 REM add "cls &"
 cls
 
@@ -147,7 +147,7 @@ if %filesMissing%==1 (
 	set deletedZip=Files\adb\adb.zip*
 	set "dst=%~dp0Files\adb"
 
-	powershell.exe -nologo -noprofile -command "& {$files='adb.exe', 'AdbWinApi.dll', 'AdbWinUsbApi.dll' ;$app = New-Object -COM 'Shell.Application'; $app.NameSpace("$env:zipfile").Items() | ? { $files -contains $_.Name } | %% { $app.Namespace("$env:dst").MoveHere($_, 4);}}"
+	powershell.exe -nologo -noprofile -command "& {$files='adb.exe', 'adb', 'AdbWinApi.dll', 'AdbWinUsbApi.dll' ;$app = New-Object -COM 'Shell.Application'; $app.NameSpace("$env:zipfile").Items() | ? { $files -contains $_.Name } | %% { $app.Namespace("$env:dst").MoveHere($_, 0x14);}}"
 	powershell -command "& { Remove-Item ("$env:deletedZip")}"	
 	!adb! start-server 2>nul
 	exit /b
@@ -212,13 +212,13 @@ if not exist Files md Files
 call :checkInternet
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://vancedapp.com/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """vanced""" Files\latest.json') do set vancedline=%%a
-for /f tokens^=3^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do set latestVancedVersion=%%a& goto :nextline
+for /f tokens^=4^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do set latestVancedVersion=%%a& goto :nextline
 :nextline
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """microg""" Files\latest.json') do set microgline=%%a
-for /f tokens^=3^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMicroGVersion=%%a& goto :nextline2
+for /f tokens^=4^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMicroGVersion=%%a& goto :nextline2
 :nextline2
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """music""" Files\latest.json') do set musicline=%%a
-for /f tokens^=3^ skip^=%musicline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMusicVersion=%%a& goto :nextline3
+for /f tokens^=4^ skip^=%musicline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMusicVersion=%%a& goto :nextline3
 :nextline3
 
 exit /b
