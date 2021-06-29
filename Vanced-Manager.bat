@@ -226,50 +226,27 @@ exit /b
 
 
 :isVancedInstalled
-
-set isVancedInstalledparameter=0
-set VancedUpdateInstall=  Install
-set currentVancedVersion=None
-for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.vanced.android.youtube"') DO (
-	set isVancedInstalledparameter=1
-	set VancedUpdateInstall=   Update
-	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.vanced.android.youtube ^|findstr "versionName"') DO (
-		set currentVancedVersion=%%b && if %%b==%latestVancedVersion% set VancedUpdateInstall=Reinstall
-	)
-	
-)
+call :isAppInstalled "Vanced", "com.vanced.android.youtube"
 exit /b
-
-
-
 :isMicroGInstalled
-
-set isMicroGInstalledparameter=0
-set MicroGUpdateInstall=  Install
-set currentMicroGVersion=None         
-
-for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.mgoogle.android.gms"') DO (
-	set isMicroGInstalledparameter=1
-	set MicroGUpdateInstall=   Update
-	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.mgoogle.android.gms ^|findstr "versionName"') DO (
-		set currentMicroGVersion=%%b && if %%b==%latestMicroGVersion% set MicroGUpdateInstall=Reinstall
-	)
-	
-)
+call :isAppInstalled "MicroG", "com.mgoogle.android.gms"
+exit /b
+:isMusicInstalled
+call :isAppInstalled "Music", "com.vanced.android.apps.youtube.music"
 exit /b
 
 
-:isMusicInstalled
+:isAppInstalled
+set is%~1Installedparameter=0
+set %~1UpdateInstall=  Install
+set current%~1Version=None         
 
-set isMusicInstalledparameter=0
-set MusicUpdateInstall=  Install
-set currentMusicVersion=None         
 
-for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "com.vanced.android.apps.youtube.music"') DO (
-	set isMusicInstalledparameter=1
-	set musicUpdateInstall=   Update
-	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package com.vanced.android.apps.youtube.music ^|findstr "versionName"') DO (
-		set currentMusicVersion=%%b && if %%b==%latestMusicVersion% set MusicUpdateInstall=Reinstall
+for /f "tokens=*" %%a IN ('%adb% shell pm list packages ^|find "%~2"') DO (
+	set is%~1Installedparameter=1
+	set %~1UpdateInstall=   Update
+	for /f "tokens=2 delims==" %%b IN ('%adb% shell dumpsys package %~2 ^|findstr "versionName"') DO (
+	 	set current%~1Version=%%b && if %%b==!latest%~1Version! set %~1UpdateInstall=Reinstall
 	)
 	
 )
@@ -295,7 +272,7 @@ echo.
 echo    ---------------------------------------------------------
 echo [94m     YouTube Music [0m
 echo.
-echo       Latest: %latestMusicVersion%                        [0m%musicUpdateInstall% [0m[[93m2[0m]
+echo       Latest: %latestMusicVersion%                        [0m%MusicUpdateInstall% [0m[[93m2[0m]
 echo       Installed: %currentMusicVersion%
 echo.
 echo    --------------------------------------------------------- 
