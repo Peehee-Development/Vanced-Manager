@@ -106,6 +106,8 @@ In order for this to work, you'll first need to enable USB debugging.
 
 [Download the latest version](https://github.com/Peehee-Development/Vanced-Manager/releases/latest/download/Vanced-Manager.zip)
 
+  Unzip the donwloaded file to a folder of your choice
+
  Launch `Vanced-Manager.bat`
  
 <details>
