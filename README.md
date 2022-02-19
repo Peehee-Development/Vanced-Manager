@@ -207,7 +207,7 @@ To continue running the program;
 © Peehee-Development 
 
 Contributors:
-1) hutk1999
+1) hutk1999 (Yoel Siegel)
 2) asherperlmuter
 
 -->
