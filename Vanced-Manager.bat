@@ -212,7 +212,7 @@ if not exist Files md Files
 call :checkInternet
 powershell -Command "& { $ProgressPreference = 'SilentlyContinue';Start-BitsTransfer -Source "https://vancedapp.com/api/v1/latest.json" -Destination "'Files\latest.json'";$ProgressPreference = 'Continue';}"
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """vanced""" Files\latest.json') do set vancedline=%%a
-for /f tokens^=4^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do set latestVancedVersion=%%a& goto :nextline
+for /f tokens^=3^ skip^=%vancedline%^ delims^=^"^  %%a in (Files\latest.json) do set latestVancedVersion=%%a& goto :nextline
 :nextline
 for /f "tokens=1 delims=[] " %%a in ('FIND /n """microg""" Files\latest.json') do set microgline=%%a
 for /f tokens^=4^ skip^=%microgline%^ delims^=^"^  %%a in (Files\latest.json) do set latestMicroGVersion=%%a& goto :nextline2
